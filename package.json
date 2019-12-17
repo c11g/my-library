@@ -1,0 +1,25 @@
+{
+  "name": "my-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c11g/my-library.git"
+  },
+  "author": "c11g",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/c11g/my-library/issues"
+  },
+  "homepage": "https://github.com/c11g/my-library#readme"
+}

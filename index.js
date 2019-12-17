@@ -1,19 +1,13 @@
-const search = require('./search.js');
+const express = require('express');
+const app = express();
+const router = require('./router/main.js')(app);
+const ejs = require('ejs');
 
-const app = require('express')();
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'ejs');
+app.engine('html', ejs.renderFile);
+app.use(express.static('public'));
 
-const api_url = 'https://openapi.naver.com/v1/search/book.json';
-const client_info = {
-  id: '4H3e4YWvZuPeN20K2BXI',
-  secret: 'pBB3sOaWi1',
-};
-
-app.get('/', (request, response) => {
-  response.end('Hello World');
-});
-
-app.use('/Search', search);
-
-app.listen(90, _ => {
+app.listen(90, () => {
   console.log('Example app listening on port 90')
 });
