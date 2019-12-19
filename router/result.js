@@ -6,7 +6,6 @@ const router = app => {
 		id: '4H3e4YWvZuPeN20K2BXI',
 		secret: 'pBB3sOaWi1',
 	};
-	let start = 1;
 	
 	app.get('/result/:start', (req, res) => {
 		console.log(req.params, req.query)

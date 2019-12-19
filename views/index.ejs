@@ -19,9 +19,11 @@
 			<p>결과가 없습니다.</p>
 		<% } else { %>
 			<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
-		<% books.forEach(book => { %>
-			<div> <%= `${book.title}` %></div>
-		<% }) %>
+			<ul>
+			<% books.forEach(book => { %>
+				<li> <%- `${book.title}` %></li>
+			<% }) %>
+			</ul>
 			<button type="button" id="prev_button">이전</button>
 			<button type="button" id="next_button">다음</button>
 		<% } %>
@@ -34,7 +36,7 @@ const form = document.forms[0],
 	next_button = document.getElementById('next_button');
 
 let startValue = form.start.value,
-		displayValue = form.display.value;
+	displayValue = form.display.value;
 
 const nextHandler = start => {
 	form.start.value = Number(form.start.value) + Number(displayValue);
