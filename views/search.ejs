@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Search :: MY LIBRARY</title>
+</head>
+<body>
+<h1>Search</h1>
+<a href="/">홈</a>
+<form action="/search">
+	<input type="text" name="keyword" value="<%= keyword %>">
+	<button id="submit_button">검색</button>
+	<hr>
+	<div>
+	<% if (!keyword || total < 1) { %>
+		<p><%= message %></p>
+	<% } else { %>
+		<input type="hidden" name="start" value="<%= start %>">
+		<input type="hidden" name="display" value="<%= display %>">
+		<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
+		<ul>
+		<% books.forEach(book => { %>
+			<li> <%- `${book.title}` %></li>
+		<% }) %>
+		</ul>
+		<button type="button" id="prev_button">이전</button>
+		<button type="button" id="next_button">다음</button>
+		<script>
+			const form = document.forms[0],
+				prev_button = document.getElementById('prev_button'),
+				next_button = document.getElementById('next_button');
+			
+			let startValue = form.start.value,
+				displayValue = form.display.value;
+			
+			const prevHandler = start => {
+				form.start.value = Number(form.start.value) - Number(displayValue);
+				form.submit();
+			};
+
+			const nextHandler = start => {
+				form.start.value = Number(form.start.value) + Number(displayValue);
+				form.submit();
+			};
+			
+			submit_button.addEventListener('click', () => {
+				form.start.value = 1;
+			});
+			
+			prev_button.addEventListener('click', prevHandler);
+			next_button.addEventListener('click', nextHandler);
+		</script>
+	<% } %>
+	</div>
+</form>
+</body>
+</html>

@@ -14,13 +14,15 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
 app.engine('html', ejs.renderFile);
 app.use(express.static('public'));
-
 app.get('/', (req, res) => {
+	res.render('index.ejs');
+});
+app.get('/search', (req, res) => {
 	const keyword = req.query.keyword,
 		start = req.query.start;
 	
 	if ( !keyword ) {
-		res.render('index.ejs', {
+		res.render('search.ejs', {
 			keyword: null,
 			message: '검색어를 입력하세요.'
 		});
@@ -36,9 +38,9 @@ app.get('/', (req, res) => {
 	};
 
 	request.get(options, (error, response, data) => {
+		const info = JSON.parse(data);
 		if (!error && response.statusCode == 200) {
-			const info = JSON.parse(data);
-			res.render('index.ejs', {
+			res.render('search.ejs', {
 				message: '검색 결과가 없습니다.',
 				keyword: keyword,
 				total: info.total,
@@ -49,7 +51,8 @@ app.get('/', (req, res) => {
 				books: info.items,
 			});
 		} else {
-			console.log(`error = ${response.statusCode} (${Date.now()})`);
+			res.set('Content-Type', 'text/html');
+			res.end(`Error ${info.errorCode}: ${info.errorMessage}`);
 		}
 	});
 });
