@@ -9,45 +9,44 @@
 </head>
 <body>
 <form action="/">
-	<input type="hidden" name="start" value="<%= start %>">
-	<input type="hidden" name="display" value="<%= display %>">
-  <input type="text" name="keyword" value="<%= keyword %>">
+	<input type="text" name="keyword" value="<%= keyword %>">
 	<button id="submit_button">검색</button>
 	<hr>
 	<div>
-		<% if (nodata) { %>
-			<p>결과가 없습니다.</p>
-		<% } else { %>
-			<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
-			<ul>
-			<% books.forEach(book => { %>
-				<li> <%- `${book.title}` %></li>
-			<% }) %>
-			</ul>
-			<button type="button" id="prev_button">이전</button>
-			<button type="button" id="next_button">다음</button>
-		<% } %>
+	<% if (!keyword || total < 1) { %>
+		<p><%= message %></p>
+	<% } else { %>
+		<input type="hidden" name="start" value="<%= start %>">
+		<input type="hidden" name="display" value="<%= display %>">
+		<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
+		<ul>
+		<% books.forEach(book => { %>
+			<li> <%- `${book.title}` %></li>
+		<% }) %>
+		</ul>
+		<button type="button" id="prev_button">이전</button>
+		<button type="button" id="next_button">다음</button>
+		<script>
+			const form = document.forms[0],
+				prev_button = document.getElementById('prev_button'),
+				next_button = document.getElementById('next_button');
+			
+			let startValue = form.start.value,
+				displayValue = form.display.value;
+			
+			const nextHandler = start => {
+				form.start.value = Number(form.start.value) + Number(displayValue);
+				console.log(form.start.value)
+				form.submit();
+			};
+			
+			submit_button.addEventListener('click', () => {
+				form.start.value = 1;
+			});
+			next_button.addEventListener('click', nextHandler);
+		</script>
+	<% } %>
 	</div>
 </form>
-<% if (!nodata) { %>
-<script>
-const form = document.forms[0],
-	prev_button = document.getElementById('prev_button'),
-	next_button = document.getElementById('next_button');
-
-let startValue = form.start.value,
-	displayValue = form.display.value;
-
-const nextHandler = start => {
-	form.start.value = Number(form.start.value) + Number(displayValue);
-	form.submit();
-};
-
-submit_button.addEventListener('click', () => {
-	form.start.value = 1;
-});
-next_button.addEventListener('click', nextHandler);
-</script>
-<% } %>
 </body>
 </html>

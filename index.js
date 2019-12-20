@@ -8,7 +8,7 @@ const client_info = {
 	id: '4H3e4YWvZuPeN20K2BXI',
 	secret: 'pBB3sOaWi1',
 };
-let keyword = '', display = 20;
+const display = 20;
 
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'ejs');
@@ -21,16 +21,14 @@ app.get('/', (req, res) => {
 	
 	if ( !keyword ) {
 		res.render('index.ejs', {
-			nodata: true,
-			keyword: keyword,
-			start: 1,
-			display: display,
+			keyword: null,
+			message: '검색어를 입력하세요.'
 		});
 		return;
 	};
 
 	const options = {
-		url: `${api_url}?query=${encodeURI(keyword)}&display=${display}&start=${start}`,
+		url: `${api_url}?query=${keyword ? encodeURI(keyword):null}&display=${display?display:10}&start=${start?start:1}`,
 		headers: {
 			'X-Naver-Client-Id': client_info.id,
 			'X-Naver-Client-Secret': client_info.secret
@@ -41,7 +39,7 @@ app.get('/', (req, res) => {
 		if (!error && response.statusCode == 200) {
 			const info = JSON.parse(data);
 			res.render('index.ejs', {
-				nodata: false,
+				message: '검색 결과가 없습니다.',
 				keyword: keyword,
 				total: info.total,
 				start: info.start,
@@ -51,7 +49,7 @@ app.get('/', (req, res) => {
 				books: info.items,
 			});
 		} else {
-			console.log('error = ' + response.statusCode);
+			console.log(`error = ${response.statusCode} (${Date.now()})`);
 		}
 	});
 });
