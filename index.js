@@ -24,6 +24,8 @@ app.get('/search', (req, res) => {
 	if ( !keyword ) {
 		res.render('search.ejs', {
 			keyword: null,
+			start: 1,
+			display: display,
 			message: '검색어를 입력하세요.'
 		});
 		return;

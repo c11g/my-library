@@ -11,15 +11,16 @@
 <h1>Search</h1>
 <a href="/">홈</a>
 <form action="/search">
+	<input type="hidden" name="start" value="<%= start %>">
+	<input type="hidden" name="display" value="<%= display %>">
 	<input type="text" name="keyword" value="<%= keyword %>">
 	<button id="submit_button">검색</button>
 	<hr>
+	<p id="message"></p>
 	<div>
 	<% if (!keyword || total < 1) { %>
-		<p><%= message %></p>
+		<p ><%= message %></p >
 	<% } else { %>
-		<input type="hidden" name="start" value="<%= start %>">
-		<input type="hidden" name="display" value="<%= display %>">
 		<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
 		<ul>
 		<% books.forEach(book => { %>
@@ -28,33 +29,43 @@
 		</ul>
 		<button type="button" id="prev_button">이전</button>
 		<button type="button" id="next_button">다음</button>
-		<script>
-			const form = document.forms[0],
-				prev_button = document.getElementById('prev_button'),
-				next_button = document.getElementById('next_button');
-			
-			let startValue = form.start.value,
-				displayValue = form.display.value;
-			
-			const prevHandler = start => {
-				form.start.value = Number(form.start.value) - Number(displayValue);
-				form.submit();
-			};
-
-			const nextHandler = start => {
-				form.start.value = Number(form.start.value) + Number(displayValue);
-				form.submit();
-			};
-			
-			submit_button.addEventListener('click', () => {
-				form.start.value = 1;
-			});
-			
-			prev_button.addEventListener('click', prevHandler);
-			next_button.addEventListener('click', nextHandler);
-		</script>
 	<% } %>
 	</div>
 </form>
+<script>
+	const form = document.forms[0],
+		message_p = document.getElementById('message'),
+		prev_button = document.getElementById('prev_button'),
+		next_button = document.getElementById('next_button');
+	
+	let startValue = form.start.value,
+		displayValue = form.display.value;
+	
+	const prevHandler = index => {
+		let start = Number(index) - Number(displayValue);
+		if ( start < 1 ) {
+			message_p.textContent = '첫 페이지 입니다.';
+			return;
+		}
+		form.start.value = start;
+		form.submit();
+	};
+
+	const nextHandler = index => {
+		let start = Number(index) + Number(displayValue);
+		if ( start > 1000 ) {
+			message_p.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
+			return;
+		}
+		form.start.value = start;
+		form.submit();
+	};
+	
+	submit_button.addEventListener('click', () => {
+		form.start.value = 1;
+	});
+	if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startValue));
+	if (next_button) next_button.addEventListener('click', _ => nextHandler(startValue));
+</script>
 </body>
 </html>
