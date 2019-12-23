@@ -13,6 +13,7 @@
 <form action="/search">
 	<input type="hidden" name="start" value="<%= start %>">
 	<input type="hidden" name="display" value="<%= display %>">
+	<input type="hidden" name="total" value="<%= total %>">
 	<input type="text" name="keyword" value="<%= keyword %>">
 	<button id="submit_button">검색</button>
 	<hr>
@@ -24,7 +25,14 @@
 		<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
 		<ul>
 		<% books.forEach(book => { %>
-			<li> <%- `${book.title}` %></li>
+			<li>
+				<img src="<%= book.image %>" alt="">
+				<div>
+					<a class="title" href="<%= book.link %>" target="_blank"><%- book.title %></a>
+					<div class="info"><%= book.price %>, <%= book.author %>, <%= book.publisher %>, <%= book.pubdate %></div>
+					<p class="description"><%- book.description %></p>
+				</div>
+			</li>
 		<% }) %>
 		</ul>
 		<button type="button" id="prev_button">이전</button>
@@ -38,7 +46,8 @@
 		prev_button = document.getElementById('prev_button'),
 		next_button = document.getElementById('next_button');
 	
-	let startValue = form.start.value,
+	let totalValue = form.total.value,
+		startValue = form.start.value,
 		displayValue = form.display.value;
 	
 	const prevHandler = index => {
@@ -56,6 +65,9 @@
 		if ( start > 1000 ) {
 			message_p.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
 			return;
+		} else if ( start > totalValue) {
+			message_p.textContent = '마지막 페이지 입니다.';
+			return;
 		}
 		form.start.value = start;
 		form.submit();
@@ -64,6 +76,7 @@
 	submit_button.addEventListener('click', () => {
 		form.start.value = 1;
 	});
+	
 	if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startValue));
 	if (next_button) next_button.addEventListener('click', _ => nextHandler(startValue));
 </script>
