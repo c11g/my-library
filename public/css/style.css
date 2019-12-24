@@ -1,0 +1,87 @@
+.blind {
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  margin: -1px;
+  width: 1px;
+  height: 1px;
+}
+.search-list {
+  padding: 0;
+  list-style: none;
+}
+.search-list__item {
+  display: flex;
+  padding: 10px;
+  border-top: 1px dashed #ededed;
+}
+.search-list__image {
+  margin-right: 10px;
+  width: 100px;
+  height: 125px;
+  border-radius: 2px;
+  object-fit: cover;
+  background: #d9d9d9;
+}
+.search-list__text {
+  flex: 1;
+}
+.search-list__title::after {
+  display: inline;
+  opacity: .5;
+  margin-left: 5px;
+  font-size: 0.6em;
+  vertical-align: text-top;
+  content: '새창';
+}
+.search-list__info {
+  font-size: 0.8em;
+  color: #999;
+}
+.search-list__description {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  text-overflow: ellipsis;
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+.search-list__action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  width: 100px;
+}
+.search-list__button {
+  position: relative;
+}
+.search-list__checkbox {
+  z-index: -1;
+  position: absolute;
+  -webkit-appearance: none;
+}
+.search-list__label {
+  position: relative;
+  display: block;
+  margin: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #dedede url(../svgs/plus.svg) center/35px no-repeat;
+}
+.search-list__label::after {
+  opacity: .1;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 50%;
+  border: 1px solid #000;
+  content: '';
+}
+.search-list__checkbox:checked + .search-list__label {
+  background: #c9a061 url(../svgs/check.svg) center/35px no-repeat;
+}

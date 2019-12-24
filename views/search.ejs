@@ -24,14 +24,20 @@
 		<p ><%= message %></p >
 	<% } else { %>
 		<p>total <%= total %> / <%= current_page %>/<%= total_page %> page</p>
-		<ul>
+		<ul class="search-list">
 		<% books.forEach(book => { %>
-			<li>
-				<img src="<%= book.image %>" alt="">
-				<div>
-					<a class="title" href="<%= book.link %>" target="_blank"><%- book.title %></a>
-					<div class="info"><%= book.price %>, <%= book.author %>, <%= book.publisher %>, <%= book.pubdate %></div>
-					<p class="description"><%- book.description %></p>
+			<li class="search-list__item">
+				<img src="<%= book.image %>" class="search-list__image" alt="">
+				<div class="search-list__text">
+					<a class="search-list__title" href="<%= book.link %>" target="_blank"><%- book.title %></a>
+					<div class="search-list__info"><%= book.price %>, <%= book.author %>, <%= book.publisher %>, <%= book.pubdate %></div>
+					<p class="search-list__description"><%- book.description %></p>
+				</div>
+				<div class="search-list__action">
+					<div class="search-list__button">
+						<input type="checkbox" class="search-list__checkbox" name="mybook" id="<%= book.isbn %>">
+						<label class="search-list__label" for="<%= book.isbn %>"><span class="blind">추가</span></label>
+					</div>
 				</div>
 			</li>
 		<% }) %>
@@ -42,7 +48,6 @@
 	</div>
 </form>
 <script>
-
 	const form = document.forms[0],
 		message_p = document.getElementById('message'),
 		prev_button = document.getElementById('prev_button'),
@@ -82,6 +87,5 @@
 	if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startValue));
 	if (next_button) next_button.addEventListener('click', _ => nextHandler(startValue));
 </script>
-<script src="./js/bootstrap.js"></script>
 </body>
 </html>
