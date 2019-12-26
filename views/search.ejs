@@ -12,9 +12,6 @@
 <h1>Search</h1>
 <a href="/">홈</a>
 <form action="/search">
-	<input type="hidden" name="start" value="<%= start %>">
-	<input type="hidden" name="display" value="<%= display %>">
-	<input type="hidden" name="total" value="<%= total %>">
 	<input type="text" name="keyword" value="<%= keyword %>">
 	<button id="submit_button">검색</button>
 	<hr>
@@ -30,7 +27,7 @@
 				<img src="<%= book.image %>" class="search-list__image" alt="">
 				<div class="search-list__text">
 					<a class="search-list__title" href="<%= book.link %>" target="_blank"><%- book.title %></a>
-					<div class="search-list__info"><%= book.price %>, <%= book.author %>, <%= book.publisher %>, <%= book.pubdate %></div>
+					<div class="search-list__info"><%= book.price %>, <%- book.author %>, <%- book.publisher %>, <%= book.pubdate %></div>
 					<p class="search-list__description"><%- book.description %></p>
 				</div>
 				<div class="search-list__action">
@@ -48,44 +45,53 @@
 	</div>
 </form>
 <script>
+	// DOMs
 	const form = document.forms[0],
 		message_p = document.getElementById('message'),
 		prev_button = document.getElementById('prev_button'),
 		next_button = document.getElementById('next_button');
+
+	// data
+	const totalCount = Number('<%= total %>'),
+		displayCount = Number('<%= display %>');
+
+	const startIndexInput = document.createElement('input');
+	form.prepend(startIndexInput);
+	startIndexInput.name = 'startIndex';
+	startIndexInput.type = 'hidden';
+	let startIndex = Number(startIndexInput.value = '<%= start %>');
 	
-	let totalValue = form.total.value,
-		startValue = form.start.value,
-		displayValue = form.display.value;
-	
+	// handlers
 	const prevHandler = index => {
-		let start = Number(index) - Number(displayValue);
+		let start = index - displayCount;
 		if ( start < 1 ) {
 			message_p.textContent = '첫 페이지 입니다.';
 			return;
 		}
-		form.start.value = start;
+		startIndexInput.value = start;
 		form.submit();
 	};
 
 	const nextHandler = index => {
-		let start = Number(index) + Number(displayValue);
+		let start = index + displayCount;
 		if ( start > 1000 ) {
 			message_p.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
 			return;
-		} else if ( start > totalValue) {
+		} else if ( start > totalCount) {
 			message_p.textContent = '마지막 페이지 입니다.';
 			return;
 		}
-		form.start.value = start;
+		startIndexInput.value = start;
 		form.submit();
 	};
 	
 	submit_button.addEventListener('click', () => {
-		form.start.value = 1;
+		startIndexInput.value = 1;
 	});
 	
-	if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startValue));
-	if (next_button) next_button.addEventListener('click', _ => nextHandler(startValue));
+	// events
+	if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startIndex));
+	if (next_button) next_button.addEventListener('click', _ => nextHandler(startIndex));
 </script>
 </body>
 </html>

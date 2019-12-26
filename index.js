@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 app.get('/search', (req, res) => {
 	const keyword = req.query.keyword,
-		start = req.query.start;
+		start = req.query.startIndex;
 	
 	if ( !keyword ) {
 		res.render('search.ejs', {
@@ -33,7 +33,7 @@ app.get('/search', (req, res) => {
 	};
 
 	const options = {
-		url: `${api_url}?query=${keyword ? encodeURI(keyword):null}&display=${display?display:10}&start=${start?start:1}`,
+		url: `${api_url}?query=${keyword ? encodeURI(keyword):null}&display=${display}&start=${start?start:1}`,
 		headers: {
 			'X-Naver-Client-Id': client_info.id,
 			'X-Naver-Client-Secret': client_info.secret
