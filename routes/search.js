@@ -1,7 +1,6 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
 const request = require('request');
-const ejs = require('ejs');
 
 const api_url = 'https://openapi.naver.com/v1/search/book.json';
 const client_info = {
@@ -10,19 +9,12 @@ const client_info = {
 };
 const display = 20;
 
-app.set('views', `${__dirname}/views`);
-app.set('view engine', 'ejs');
-app.engine('html', ejs.renderFile);
-app.use(express.static('public'));
-app.get('/', (req, res) => {
-	res.render('index.ejs');
-});
-app.get('/search', (req, res) => {
+router.get('/', (req, res) => {
 	const keyword = req.query.keyword,
 		start = req.query.startIndex;
 	
 	if ( !keyword ) {
-		res.render('search.ejs', {
+		res.render('search', {
 			keyword: null,
 			total: 0,
 			start: 1,
@@ -43,7 +35,7 @@ app.get('/search', (req, res) => {
 	request.get(options, (error, response, data) => {
 		const info = JSON.parse(data);
 		if (!error && response.statusCode == 200) {
-			res.render('search.ejs', {
+			res.render('search', {
 				message: '검색 결과가 없습니다.',
 				keyword: keyword,
 				total: info.total,
@@ -60,6 +52,4 @@ app.get('/search', (req, res) => {
 	});
 });
 
-app.listen(90, () => {
-  console.log('Example app listening on port 90')
-});
+module.exports = router;

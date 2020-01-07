@@ -1,0 +1,48 @@
+script.
+  // DOMs
+  const form = document.forms[0],
+  message_p = document.getElementById('message'),
+  prev_button = document.getElementById('prev_button'),
+  next_button = document.getElementById('next_button');
+
+  // data
+  const totalCount = Number(#{total}),
+  displayCount = Number(#{display});
+
+  const startIndexInput = document.createElement('input');
+  form.prepend(startIndexInput);
+  startIndexInput.name = 'startIndex';
+  startIndexInput.type = 'hidden';
+  let startIndex = Number(startIndexInput.value = #{start});
+
+  // handlers
+  const prevHandler = index => {
+  let start = index - displayCount;
+  if ( start < 1 ) {
+    message_p.textContent = '첫 페이지 입니다.';
+    return;
+  }
+  startIndexInput.value = start;
+  form.submit();
+  };
+
+  const nextHandler = index => {
+  let start = index + displayCount;
+  if ( start > 1000 ) {
+    message_p.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
+    return;
+  } else if ( start > totalCount) {
+    message_p.textContent = '마지막 페이지 입니다.';
+    return;
+  }
+  startIndexInput.value = start;
+  form.submit();
+  };
+
+  submit_button.addEventListener('click', () => {
+  startIndexInput.value = 1;
+  });
+
+  // events
+  if (prev_button) prev_button.addEventListener('click', _ => prevHandler(startIndex));
+  if (next_button) next_button.addEventListener('click', _ => nextHandler(startIndex));
