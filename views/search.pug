@@ -4,35 +4,33 @@ block title
 	title Search :: My Library
 
 block content
-	h1 Search
-	a(href="/") Go Home
+	h1.header Search
+		a.header__link(href="/") Go Home
 	form(action="/search")
-		input(type="text", name="keyword", value=keyword)
-		button#submit_button SEARCH
-		hr
-		p#message
-
-		div
+		div.search-header
+			input.search-header__input(type="text", name="keyword", value=keyword)
+			button#submit_button.search-header__submit SEARCH
+			
 		if !keyword || total<1
 			p= message
 		else
-			p total #{total} / #{current_page} / #{total_page} page
+			div.sticky-header.search-list-header
+				total "#{keyword}" 검색 결과: 총 #{total}건 ( #{current_page} / #{total_page} page )
+				button#prev_button.search-list-header__button(type="button") 이전
+				button#next_button.search-list-header__button(type="button") 다음
 			ul.search-list
-			each book in books
-				li.search-list__item
-					img.search-list__image(src=book.image, alt="")
-					div.search-list__text
-						a.search-list__title(href=book.link, target="_blank")!= book.title
-						div.search-list__info #{book.price}원, #{book.author}, #{book.publisher}, #{book.pubdate}
-						p.search-list__description!= book.description
-					div.search-list__action
-						div.search-list__button
-							input.search-list__checkbox(type="checkbox", name="mybook", id=book.isbn)
-							label.search-list__label(for=book.isbn)
-								span.blind 추가
-
-			button#prev_button(type="button") 이전
-			button#next_button(type="button") 다음
+				each book in books
+					li.search-list__item
+						img.search-list__image(src=book.image, alt="")
+						div.search-list__text
+							a.search-list__title(href=book.link, target="_blank")!= book.title
+							div.search-list__info #{book.price}원, #{book.author}, #{book.publisher}, #{book.pubdate}
+							p.search-list__description!= book.description
+						div.search-list__action
+							div.search-list__button
+								input.search-list__checkbox(type="checkbox", name="mybook", id=book.isbn)
+								label.search-list__label(for=book.isbn)
+									span.blind 추가
 
 block scripts
 	include include/_search_script
