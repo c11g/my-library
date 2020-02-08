@@ -12,7 +12,7 @@ block content
 			button#submit_button.search-header__submit SEARCH
 			
 		if !keyword || total<1
-			p= message
+			p.message= message
 		else
 			div.sticky-header.search-list-header
 				total "#{keyword}" 검색 결과: 총 #{total}건 ( #{current_page} / #{total_page} page )
@@ -24,13 +24,16 @@ block content
 						img.search-list__image(src=book.image, alt="")
 						div.search-list__text
 							a.search-list__title(href=book.link, target="_blank")!= book.title
-							div.search-list__info #{book.price}원, #{book.author}, #{book.publisher}, #{book.pubdate}
+							div.search-list__info 
+								span.search-list__author!= book.author
+								span #{book.price}원, #{book.publisher}, #{book.pubdate}
 							p.search-list__description!= book.description
 						div.search-list__action
 							div.search-list__button
 								input.search-list__checkbox(type="checkbox", name="mybook", id=book.isbn)
 								label.search-list__label(for=book.isbn)
 									span.blind 추가
+			p#toast.toast= toast
 
 block scripts
 	include include/_search_script

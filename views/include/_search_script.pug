@@ -1,7 +1,7 @@
 script.
   // DOMs
   const form = document.forms[0],
-  message_p = document.getElementById('message'),
+  toast = document.getElementById('toast'),
   prev_button = document.getElementById('prev_button'),
   next_button = document.getElementById('next_button');
 
@@ -19,7 +19,11 @@ script.
   const prevHandler = index => {
     let start = index - displayCount;
     if ( start < 1 ) {
-      message_p.textContent = '첫 페이지 입니다.';
+      toast.textContent = '첫 페이지 입니다.';
+      toast.style.opacity = 1;
+      setTimeout(_ => {
+        toast.style.opacity = 0;
+      } ,3000);
       return;
     }
     startIndexInput.value = start;
@@ -29,10 +33,18 @@ script.
   const nextHandler = index => {
     let start = index + displayCount;
     if ( start > 1000 ) {
-      message_p.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
+      toast.textContent = '1,000건 이상 검색할 수 없습니다. 검색어를 더 구체적으로 입력해주세요.';
+      toast.style.opacity = 1;
+      setTimeout(_ => {
+        toast.style.opacity = 0;
+      } ,3000);
       return;
     } else if ( start > totalCount) {
-      message_p.textContent = '마지막 페이지 입니다.';
+      toast.textContent = '마지막 페이지 입니다.';
+      toast.style.opacity = 1;
+      setTimeout(_ => {
+        toast.style.opacity = 0;
+      } ,3000);
       return;
     }
     startIndexInput.value = start;

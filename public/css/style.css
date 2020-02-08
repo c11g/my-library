@@ -13,6 +13,10 @@
   margin-left: 10px;
   font-size: 1rem;
 }
+.message {
+  padding: 10px;
+  color: #999;
+}
 .search-header {
   padding: 10px;
 }
@@ -70,6 +74,9 @@
 .search-list__text {
   flex: 1;
 }
+.search-list__text b {
+  color: chocolate;
+}
 .search-list__title::after {
   display: inline;
   opacity: .5;
@@ -81,6 +88,9 @@
 .search-list__info {
   font-size: 0.8em;
   color: #999;
+}
+.search-list__author {
+  margin-right: 10px;
 }
 .search-list__description {
   overflow: hidden;
@@ -128,4 +138,19 @@
 }
 .search-list__checkbox:checked + .search-list__label {
   background: #c9a061 url(../svgs/check.svg) center/35px no-repeat;
+}
+.toast {
+  transition: opacity ease .2s;
+  z-index: 1000;
+  position: fixed;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 8px;
+  background: #555;
+  font-size: 1.1rem;
+  line-height: 1.4;
+  text-align: center;
+  color: #fff;
 }
