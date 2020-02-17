@@ -3,7 +3,7 @@ const router = express.Router();
 const request = require('request');
 
 const api_url = 'https://openapi.naver.com/v1/search/book.json';
-const client_info = {
+const CLIENT_INFO = {
 	id: '4H3e4YWvZuPeN20K2BXI',
 	secret: 'pBB3sOaWi1',
 };
@@ -27,8 +27,8 @@ router.get('/', (req, res) => {
 	const options = {
 		url: `${api_url}?query=${keyword ? encodeURI(keyword):null}&display=${display}&start=${start?start:1}`,
 		headers: {
-			'X-Naver-Client-Id': client_info.id,
-			'X-Naver-Client-Secret': client_info.secret
+			'X-Naver-Client-Id': CLIENT_INFO.id,
+			'X-Naver-Client-Secret': CLIENT_INFO.secret
 		}
 	};
 

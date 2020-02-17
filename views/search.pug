@@ -1,4 +1,4 @@
-extends layout
+extends extend/_layout
 
 block title
 	title Search :: My Library
@@ -12,7 +12,7 @@ block content
 			button#submit_button.search-header__submit SEARCH
 			
 		if !keyword || total<1
-			p.message= message
+			p.search-message= message
 		else
 			div.sticky-header.search-list-header
 				total "#{keyword}" 검색 결과: 총 #{total}건 ( #{current_page} / #{total_page} page )
